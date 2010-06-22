@@ -46,6 +46,9 @@ public class Desktop extends JFrame{
 		
 		JMenuItem abrir = new JMenuItem("Abrir");
 		abrir.setMnemonic('b');
+
+              //  JMenuItem abrir = new JMenuItem("Zoom");
+	//	abrir.setMnemonic('c');
 		
 		fileMenu.add(abrir);
 		abrir.addActionListener(
