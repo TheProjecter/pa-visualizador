@@ -27,7 +27,19 @@ public class ShapefileComponent extends JComponent
 	private final Coordinate center;
 	private double zoom;
 	
-	
+	 public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
+
+    public void repaintMap(){
+        this.repaint();
+    }
+
+
 	public ShapefileComponent(ShapefileDataStore sds) throws IOException
 	{
 		this.sds = sds;
