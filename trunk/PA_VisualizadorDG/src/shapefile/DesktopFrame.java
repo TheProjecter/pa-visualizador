@@ -11,11 +11,13 @@
 
 package shapefile;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -31,6 +33,9 @@ public class DesktopFrame extends javax.swing.JFrame {
         Arquivo.setMnemonic('A');
         Abrir.setMnemonic('b');
         Sair.setMnemonic('S');
+        scale.setText("");
+        scale.setEditable(false);
+        
     }
 
     /** This method is called from within the constructor to
@@ -46,6 +51,8 @@ public class DesktopFrame extends javax.swing.JFrame {
         increaseZoom = new javax.swing.JButton();
         decreaseZoom = new javax.swing.JButton();
         desktopPane = new javax.swing.JDesktopPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        scale = new javax.swing.JTextArea();
         MenuBar = new javax.swing.JMenuBar();
         Arquivo = new javax.swing.JMenu();
         Abrir = new javax.swing.JMenuItem();
@@ -78,6 +85,10 @@ public class DesktopFrame extends javax.swing.JFrame {
         });
         ToolBar.add(decreaseZoom);
 
+        scale.setColumns(20);
+        scale.setRows(5);
+        jScrollPane1.setViewportView(scale);
+
         Arquivo.setText("Arquivo");
 
         Abrir.setText("Abrir");
@@ -109,13 +120,16 @@ public class DesktopFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -125,12 +139,18 @@ public class DesktopFrame extends javax.swing.JFrame {
         if (shapeView != null){
             shapeView.decreaseZoom();
         }
+        double escala = 1/shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala) );
+        //scale.setText(Double.toString(shapeView.getShapeScale()));
     }//GEN-LAST:event_decreaseZoomActionPerformed
 
     private void increaseZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_increaseZoomActionPerformed
         if (shapeView != null) {
             shapeView.increaseZoom();
         }
+        double escala = 1/shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala) );
+        //scale.setText(Double.toString(shapeView.getShapeScale()));
     }//GEN-LAST:event_increaseZoomActionPerformed
 
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
@@ -145,6 +165,8 @@ public class DesktopFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             //Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
         }
+        double escala = 1/shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala) );
 }//GEN-LAST:event_AbrirActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
@@ -173,6 +195,8 @@ public class DesktopFrame extends javax.swing.JFrame {
     private javax.swing.JButton decreaseZoom;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JButton increaseZoom;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea scale;
     // End of variables declaration//GEN-END:variables
 
     //Metodo para selecionar o arquivo SHAPE

@@ -26,6 +26,15 @@ public class ShapefileComponent extends JComponent
 	private Envelope envelope;
 	private final Coordinate center;
 	private double zoom;
+        private double escala;
+
+    public double getEscala() {
+        return escala;
+    }
+
+    public void setEscala(double escala) {
+        this.escala = escala;
+    }
 	
 	 public double getZoom() {
         return zoom;
@@ -73,7 +82,7 @@ public class ShapefileComponent extends JComponent
 		// Uma AffineTransform que mapeie dados no shapefile com a �rea para plotagem
 		AffineTransform at = new AffineTransform();
 		// Calculamos a escala
-		double escala = (Math.min(getWidth()/envelope.getWidth(),
+                escala = (Math.min(getWidth()/envelope.getWidth(),
 		getHeight()/envelope.getHeight())
 		*zoom);
 		// Fazemos a transla��o para o centro do componente.

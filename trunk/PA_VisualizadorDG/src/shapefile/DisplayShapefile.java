@@ -36,6 +36,10 @@ public class DisplayShapefile extends JInternalFrame
             sc.repaint();
         }
 
+        public double getShapeScale(){
+            return sc.getEscala();
+        }
+
 
 
  }
