@@ -50,6 +50,7 @@ public class DesktopFrame extends javax.swing.JFrame {
         ToolBar = new javax.swing.JToolBar();
         increaseZoom = new javax.swing.JButton();
         decreaseZoom = new javax.swing.JButton();
+        printButton = new javax.swing.JButton();
         desktopPane = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         scale = new javax.swing.JTextArea();
@@ -84,6 +85,17 @@ public class DesktopFrame extends javax.swing.JFrame {
             }
         });
         ToolBar.add(decreaseZoom);
+
+        printButton.setText("Imprimir");
+        printButton.setFocusable(false);
+        printButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        printButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
+        ToolBar.add(printButton);
 
         scale.setColumns(20);
         scale.setRows(5);
@@ -183,6 +195,12 @@ public class DesktopFrame extends javax.swing.JFrame {
             System.exit(0);
 }//GEN-LAST:event_SairActionPerformed
 
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        if (shapeView != null){
+            shapeView.printShape();
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -196,6 +214,7 @@ public class DesktopFrame extends javax.swing.JFrame {
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JButton increaseZoom;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton printButton;
     private javax.swing.JTextArea scale;
     // End of variables declaration//GEN-END:variables
 

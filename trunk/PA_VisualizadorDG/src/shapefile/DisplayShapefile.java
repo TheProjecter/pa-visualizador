@@ -40,6 +40,10 @@ public class DisplayShapefile extends JInternalFrame
             return sc.getEscala();
         }
 
+        public void printShape(){
+            PrintUtilities.printComponent(sc);
+        }
+
 
 
  }
