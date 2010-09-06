@@ -11,10 +11,15 @@
 
 package shapefile;
 
+import com.svcon.jdbf.JDBFException;
+import dbf.OpenDBF;
 import java.awt.BorderLayout;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -26,9 +31,14 @@ import javax.swing.JTextArea;
 public class DesktopFrame extends javax.swing.JFrame {
 
     DisplayShapefile shapeView;
+    OpenDBF mdbf;
+
     /** Creates new form DesktopFrame */
     public DesktopFrame() {
+
+
         super("Visualizador de Dados Geoespaciais");
+        mdbf = new OpenDBF();
         initComponents();
         Arquivo.setMnemonic('A');
         Abrir.setMnemonic('b');
@@ -99,6 +109,8 @@ public class DesktopFrame extends javax.swing.JFrame {
 
         scale.setColumns(20);
         scale.setRows(5);
+        scale.setAutoscrolls(false);
+        scale.setPreferredSize(new java.awt.Dimension(164, 10));
         jScrollPane1.setViewportView(scale);
 
         Arquivo.setText("Arquivo");
@@ -139,9 +151,9 @@ public class DesktopFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -168,6 +180,7 @@ public class DesktopFrame extends javax.swing.JFrame {
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
         File shapeFile = getFile();
         URL s;
+        
         try {
             s = shapeFile.toURL();
             shapeView = new DisplayShapefile(s);
