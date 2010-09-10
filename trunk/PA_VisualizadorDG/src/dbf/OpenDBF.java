@@ -25,11 +25,12 @@ public class OpenDBF extends JFrame {
     private JPanel tableDados;
     private JPanel main;
     private String[][] teste;
+    public String endereco;
     
 
-    public void openDBF() throws FileNotFoundException, JDBFException {
+    public void openDBF(String url) throws FileNotFoundException, JDBFException {
 
-        String url = "Feira_de_Santana/hd_linha_1904_V1.dbf";
+        endereco = url;
         table = new JTable();
         jsp = new JScrollPane(table);
         table.setDefaultRenderer(Object.class, new CellRenderer());             //Centraliza os dados da tabela

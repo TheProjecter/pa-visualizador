@@ -180,9 +180,19 @@ public class DesktopFrame extends javax.swing.JFrame {
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
         File shapeFile = getFile();
         URL s;
+        String enderecoDBF;
         
         try {
             s = shapeFile.toURL();
+            enderecoDBF = s.toString();
+            enderecoDBF = enderecoDBF.replaceAll("file:/","").replaceAll(".shp",".dbf");
+            try {
+                mdbf.openDBF(enderecoDBF);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (JDBFException ex) {
+                Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             shapeView = new DisplayShapefile(s);
             shapeView.setSize(640, 640);
             desktopPane.add(shapeView);

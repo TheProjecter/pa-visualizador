@@ -4,8 +4,8 @@ import javax.swing.JInternalFrame;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import java.io.*;
 import java.net.URL;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
+//import javax.media.jai.JAI;
+//import javax.media.jai.PlanarImage;
 
 /**
  *
