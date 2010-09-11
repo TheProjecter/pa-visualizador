@@ -23,7 +23,6 @@ public class OpenDBF extends JFrame {
     private JTable table;
     private JScrollPane jsp;
     private JPanel tableDados;
-    private JPanel main;
     private String[][] teste;
     public String endereco;
     
@@ -35,7 +34,6 @@ public class OpenDBF extends JFrame {
         jsp = new JScrollPane(table);
         table.setDefaultRenderer(Object.class, new CellRenderer());             //Centraliza os dados da tabela
         tableDados = new JPanel();
-        main = new JPanel();
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);// ativa barra de rolagem horizontal
 
         table.setModel(new ModeloTabela(DBFdata.cabecalhoTabela(url), DBFdata.numeroLinhas(url), DBFdata.numeroColunas(url)));
@@ -44,7 +42,7 @@ public class OpenDBF extends JFrame {
         
         Dimension a = new Dimension(400,98);       //Usado para definir o tamanho visível (sem uso do scroll) da tabela
         jsp.setPreferredSize(a);
-        jsp.setHorizontalScrollBar(new JScrollBar(0));
+        //jsp.setHorizontalScrollBar(new JScrollBar(0));
 
         table.getColumnModel().getColumn(0).setPreferredWidth(100);     //define o tamanho da primeira coluna
         table.getColumnModel().getColumn(1).setPreferredWidth(225);     //define o tamanho da segunda coluna
@@ -55,8 +53,6 @@ public class OpenDBF extends JFrame {
         jsp.setViewportView(table);
         tableDados.add(jsp);
         
-        main.add(tableDados);
-
         teste = DBFdata.matrizDados(url);
 
         for(int i=1; i<DBFdata.numeroLinhas(url); i++) {
@@ -65,7 +61,7 @@ public class OpenDBF extends JFrame {
             }
         }
 
-        this.setContentPane(main);
+        this.setContentPane(tableDados);
         this.setSize(600, 700);
         this.setVisible(true);
     }
