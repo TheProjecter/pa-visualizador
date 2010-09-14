@@ -39,20 +39,18 @@ public class OpenDBF extends JFrame {
         table.setModel(new ModeloTabela(DBFdata.cabecalhoTabela(url), DBFdata.numeroLinhas(url), DBFdata.numeroColunas(url)));
         
         //-DEFININDO O TAMANHO DA TABELA---------------------------------------------------------------------------------
-        
         Dimension a = new Dimension(400,98);       //Usado para definir o tamanho visível (sem uso do scroll) da tabela
         jsp.setPreferredSize(a);
-        //jsp.setHorizontalScrollBar(new JScrollBar(0));
+        jsp.setHorizontalScrollBar(new JScrollBar(0));
 
         table.getColumnModel().getColumn(0).setPreferredWidth(100);     //define o tamanho da primeira coluna
         table.getColumnModel().getColumn(1).setPreferredWidth(225);     //define o tamanho da segunda coluna
         table.getColumnModel().getColumn(2).setPreferredWidth(75);      //define o tamanho da terceira coluna
 
         //---------------------------------------------------------------------------------------------------------------
-
         jsp.setViewportView(table);
         tableDados.add(jsp);
-        
+                
         teste = DBFdata.matrizDados(url);
 
         for(int i=1; i<DBFdata.numeroLinhas(url); i++) {
@@ -60,7 +58,6 @@ public class OpenDBF extends JFrame {
                 table.setValueAt(teste[i][j], (i-1), j);
             }
         }
-
         this.setContentPane(tableDados);
         this.setSize(600, 700);
         this.setVisible(true);

@@ -22,7 +22,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,10 +35,10 @@ public class DesktopFrame extends javax.swing.JFrame {
 
     DisplayShapefile shapeView;
     OpenDBF mdbf;
+    String enderecoDBF;
 
     /** Creates new form DesktopFrame */
     public DesktopFrame() {
-
 
         super("Visualizador de Dados Geoespaciais");
         mdbf = new OpenDBF();
@@ -61,9 +64,11 @@ public class DesktopFrame extends javax.swing.JFrame {
         increaseZoom = new javax.swing.JButton();
         decreaseZoom = new javax.swing.JButton();
         printButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         desktopPane = new javax.swing.JDesktopPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         scale = new javax.swing.JTextArea();
+        jPanel1 = new javax.swing.JPanel();
         MenuBar = new javax.swing.JMenuBar();
         Arquivo = new javax.swing.JMenu();
         Abrir = new javax.swing.JMenuItem();
@@ -72,6 +77,7 @@ public class DesktopFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        ToolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
         ToolBar.setRollover(true);
 
         increaseZoom.setText("Zoom +");
@@ -107,11 +113,34 @@ public class DesktopFrame extends javax.swing.JFrame {
         });
         ToolBar.add(printButton);
 
+        jButton1.setText("Tabela");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        ToolBar.add(jButton1);
+        jButton1.getAccessibleContext().setAccessibleName("Tabela");
+
         scale.setColumns(20);
         scale.setRows(5);
         scale.setAutoscrolls(false);
         scale.setPreferredSize(new java.awt.Dimension(164, 10));
         jScrollPane1.setViewportView(scale);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 315, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 72, Short.MAX_VALUE)
+        );
 
         Arquivo.setText("Arquivo");
 
@@ -142,16 +171,23 @@ public class DesktopFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -180,19 +216,10 @@ public class DesktopFrame extends javax.swing.JFrame {
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
         File shapeFile = getFile();
         URL s;
-        String enderecoDBF;
         
         try {
-            s = shapeFile.toURL();
-            enderecoDBF = s.toString();
-            enderecoDBF = enderecoDBF.replaceAll("file:/","").replaceAll(".shp",".dbf");
-            try {
-                mdbf.openDBF(enderecoDBF);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (JDBFException ex) {
-                Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            s = shapeFile.toURI().toURL();
+            enderecoDBF = shapeFile.getAbsolutePath().substring(0, shapeFile.getAbsolutePath().length()-4) + ".dbf";
             shapeView = new DisplayShapefile(s);
             shapeView.setSize(640, 640);
             desktopPane.add(shapeView);
@@ -224,6 +251,37 @@ public class DesktopFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_printButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
+        final DefaultTableModel modelo = new DefaultTableModel();
+        JTable tabela = new JTable(modelo);
+        modelo.addColumn("Nome");
+        modelo.addColumn("Cracha");
+        modelo.addColumn("Funcao");
+        modelo.addColumn("Codigo");
+        JScrollPane scrollPane = new JScrollPane(tabela);
+        scrollPane.setLocation(0,0);
+        scrollPane.setSize(300,50);
+        jPanel1.add(scrollPane);
+        jPanel1.setVisible(true);
+        */
+
+        System.out.println("ENTROU NO BOTÃO DBF com endereço DBF = " + enderecoDBF);
+        
+        try {
+            mdbf.openDBF(enderecoDBF);
+        } catch (FileNotFoundException ex) {
+            System.out.println("ENTROU AKI N 11");
+            Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JDBFException ex) {
+            System.out.println("ENTROU AKI N 12");
+            Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        //jPanel1.setVisible(true);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -236,6 +294,8 @@ public class DesktopFrame extends javax.swing.JFrame {
     private javax.swing.JButton decreaseZoom;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JButton increaseZoom;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton printButton;
     private javax.swing.JTextArea scale;

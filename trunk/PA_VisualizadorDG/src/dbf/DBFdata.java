@@ -88,7 +88,7 @@ public class DBFdata {
 
         //todas as linha
         for (int i = 1; i<linhasDBF; i++) {
-            System.out.println("TESTE LINHA : "+ i);
+            //System.out.println("TESTE LINHA : "+ i);
             Object aobj[] = dbf.nextRecord();
             for (int j = 0; j < aobj.length; j++) {
                 if(aobj[j]==null)
