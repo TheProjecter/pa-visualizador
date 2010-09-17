@@ -8,15 +8,17 @@
  *
  * Created on 16/07/2010, 23:31:51
  */
-
 package shapefile;
 
-import com.svcon.jdbf.JDBFException;
-import dbf.OpenDBF;
-import java.awt.BorderLayout;
+import com.svcon.jdbf.DBFReader;
+import dbf.DBFdata;
+import dbf.ModeloTabela;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,8 +26,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.table.DefaultTableModel;
+import com.svcon.jdbf.JDBFException;
+import java.awt.Dimension;
 
 /**
  *
@@ -34,21 +36,20 @@ import javax.swing.table.DefaultTableModel;
 public class DesktopFrame extends javax.swing.JFrame {
 
     DisplayShapefile shapeView;
-    OpenDBF mdbf;
     String enderecoDBF;
+    JTable tabelaDBF = new JTable();
 
     /** Creates new form DesktopFrame */
     public DesktopFrame() {
 
         super("Visualizador de Dados Geoespaciais");
-        mdbf = new OpenDBF();
         initComponents();
         Arquivo.setMnemonic('A');
         Abrir.setMnemonic('b');
         Sair.setMnemonic('S');
         scale.setText("");
         scale.setEditable(false);
-        
+
     }
 
     /** This method is called from within the constructor to
@@ -77,7 +78,7 @@ public class DesktopFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ToolBar.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        ToolBar.setOrientation(1);
         ToolBar.setRollover(true);
 
         increaseZoom.setText("Zoom +");
@@ -119,11 +120,10 @@ public class DesktopFrame extends javax.swing.JFrame {
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                TabelaButtonActionPerformed(evt);
             }
         });
         ToolBar.add(jButton1);
-        jButton1.getAccessibleContext().setAccessibleName("Tabela");
 
         scale.setColumns(20);
         scale.setRows(5);
@@ -139,7 +139,7 @@ public class DesktopFrame extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 72, Short.MAX_VALUE)
+            .addGap(0, 96, Short.MAX_VALUE)
         );
 
         Arquivo.setText("Arquivo");
@@ -175,16 +175,16 @@ public class DesktopFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ToolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
+                    .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(ToolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
@@ -196,11 +196,11 @@ public class DesktopFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void decreaseZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decreaseZoomActionPerformed
-        if (shapeView != null){
+        if (shapeView != null) {
             shapeView.decreaseZoom();
         }
-        double escala = 1/shapeView.getShapeScale();
-        scale.setText("1/" + Double.toString(escala) );
+        double escala = 1 / shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala));
         //scale.setText(Double.toString(shapeView.getShapeScale()));
     }//GEN-LAST:event_decreaseZoomActionPerformed
 
@@ -208,18 +208,18 @@ public class DesktopFrame extends javax.swing.JFrame {
         if (shapeView != null) {
             shapeView.increaseZoom();
         }
-        double escala = 1/shapeView.getShapeScale();
-        scale.setText("1/" + Double.toString(escala) );
+        double escala = 1 / shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala));
         //scale.setText(Double.toString(shapeView.getShapeScale()));
     }//GEN-LAST:event_increaseZoomActionPerformed
 
     private void AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbrirActionPerformed
         File shapeFile = getFile();
         URL s;
-        
+
         try {
             s = shapeFile.toURI().toURL();
-            enderecoDBF = shapeFile.getAbsolutePath().substring(0, shapeFile.getAbsolutePath().length()-4) + ".dbf";
+            enderecoDBF = shapeFile.getAbsolutePath().substring(0, shapeFile.getAbsolutePath().length() - 4) + ".dbf";
             shapeView = new DisplayShapefile(s);
             shapeView.setSize(640, 640);
             desktopPane.add(shapeView);
@@ -227,8 +227,8 @@ public class DesktopFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             //Logger.getLogger(Desktop.class.getName()).log(Level.SEVERE, null, ex);
         }
-        double escala = 1/shapeView.getShapeScale();
-        scale.setText("1/" + Double.toString(escala) );
+        double escala = 1 / shapeView.getShapeScale();
+        scale.setText("1/" + Double.toString(escala));
 }//GEN-LAST:event_AbrirActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed
@@ -241,49 +241,60 @@ public class DesktopFrame extends javax.swing.JFrame {
                 null,
                 options,
                 options[0]);
-        if (n == 0)
+        if (n == 0) {
             System.exit(0);
+        }
 }//GEN-LAST:event_SairActionPerformed
 
     private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
-        if (shapeView != null){
+        if (shapeView != null) {
             shapeView.printShape();
         }
     }//GEN-LAST:event_printButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*
-        final DefaultTableModel modelo = new DefaultTableModel();
-        JTable tabela = new JTable(modelo);
-        modelo.addColumn("Nome");
-        modelo.addColumn("Cracha");
-        modelo.addColumn("Funcao");
-        modelo.addColumn("Codigo");
-        JScrollPane scrollPane = new JScrollPane(tabela);
-        scrollPane.setLocation(0,0);
-        scrollPane.setSize(300,50);
-        jPanel1.add(scrollPane);
-        jPanel1.setVisible(true);
-        */
-
-        System.out.println("ENTROU NO BOTÃO DBF com endereço DBF = " + enderecoDBF);
-        
+    private void TabelaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TabelaButtonActionPerformed
         try {
-            mdbf.openDBF(enderecoDBF);
+            //enderecoDBF = "C:/Users/André/Desktop/Visualizador/PA_VisualizadorDG/BACIAS~1/agua.dbf";
+            int numeroLinhasDBF = DBFdata.numeroLinhas(enderecoDBF);
+            int numeroColunasDBF = DBFdata.numeroColunas(enderecoDBF);
+
+            tabelaDBF.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);// ativa barra de rolagem horizontal
+            tabelaDBF.setModel(new ModeloTabela(DBFdata.cabecalhoTabela(enderecoDBF), numeroLinhasDBF, numeroColunasDBF));
+            if(numeroColunasDBF < 19) {
+                //define o tamanho das colunas em tabelas com numero pequeno de colunas
+                for(int i=0; i< numeroColunasDBF; i++) {
+                    tabelaDBF.getColumnModel().getColumn(i).setPreferredWidth((jPanel1.getWidth()/numeroColunasDBF)-7);
+                }
+            }
+
+            InputStream stream = new BufferedInputStream(new FileInputStream(enderecoDBF));
+            DBFReader dbf = new DBFReader(stream);
+
+            for (int i = 1; i < numeroLinhasDBF; i++) {
+                Object aobj[] = dbf.nextRecord();
+                for (int j = 0; j < aobj.length; j++) {
+                    if (aobj[j] == null) {
+                        aobj[j] = "";
+                    }
+                    //System.out.println("TESTE DO OBJECT na linha: " + i + " com valor: " + aobj[j]);
+                    tabelaDBF.setValueAt(aobj[j].toString(), (i - 1), j);
+                }
+            }
         } catch (FileNotFoundException ex) {
-            System.out.println("ENTROU AKI N 11");
             Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JDBFException ex) {
-            System.out.println("ENTROU AKI N 12");
             Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
-        //jPanel1.setVisible(true);
+        JScrollPane scrollPane = new JScrollPane(tabelaDBF);
+        scrollPane.setLocation(0, 0);
+        scrollPane.setSize(jPanel1.getWidth()-2, 97);
+        System.out.println("WIDTH="+jPanel1.getWidth());
+        Dimension a = new Dimension(400, 98);       //Usado para definir o tamanho visível (sem uso do scroll) da tabela
+        scrollPane.setPreferredSize(a);
+        jPanel1.add(scrollPane);
+        jPanel1.setVisible(true);
 
-    }//GEN-LAST:event_jButton1ActionPerformed
-
- 
-
+    }//GEN-LAST:event_TabelaButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Abrir;
     private javax.swing.JMenu Arquivo;
@@ -302,27 +313,22 @@ public class DesktopFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //Metodo para selecionar o arquivo SHAPE
-    private File getFile(){
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		fileChooser.addChoosableFileFilter(new ShapeFileFilter());
-		int result = fileChooser.showOpenDialog(this);
+    private File getFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new ShapeFileFilter());
+        int result = fileChooser.showOpenDialog(this);
 
-		if (result == JFileChooser.CANCEL_OPTION)
-		{
-			return null;
-		}
+        if (result == JFileChooser.CANCEL_OPTION) {
+            return null;
+        }
 
-		File fileName = fileChooser.getSelectedFile();
+        File fileName = fileChooser.getSelectedFile();
 
-		if ( (fileName == null) || (fileName.getName().equals("")))
-		{
-			JOptionPane.showMessageDialog(this, "Nome Invalido", "ERRO", 0);
-		}
+        if ((fileName == null) || (fileName.getName().equals(""))) {
+            JOptionPane.showMessageDialog(this, "Nome Invalido", "ERRO", 0);
+        }
 
-		return fileName;
-	}
+        return fileName;
+    }
 }
-
-
-

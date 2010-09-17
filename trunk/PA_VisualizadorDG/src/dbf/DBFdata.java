@@ -17,7 +17,6 @@ import java.io.InputStream;
 
 public class DBFdata {
 
-    private static int linhasDBF;
     /*
      * Método básico criado para retornar o número de colunas existentes nas tabelas do arquivo dbf.
      */
@@ -70,33 +69,5 @@ public class DBFdata {
         numeroDeLinhasDoDBF++;      //Necessário porque o contador do laço começou em "0" e não em "1";
 
         return numeroDeLinhasDoDBF;
-    }
-
-    public static String[][] matrizDados(String url) throws FileNotFoundException, JDBFException {
-
-        InputStream stream = new BufferedInputStream(new FileInputStream(url));
-        DBFReader dbf = new DBFReader(stream);
-
-        linhasDBF = DBFdata.numeroLinhas(url);
-
-        String[][] teste = new String[linhasDBF][dbf.getFieldCount()];
-
-        //primeira linha
-        for (int i = 0; i < dbf.getFieldCount(); i++) {
-            teste[0][i] = dbf.getField(i).getName().toString();
-        }
-
-        //todas as linha
-        for (int i = 1; i<linhasDBF; i++) {
-            //System.out.println("TESTE LINHA : "+ i);
-            Object aobj[] = dbf.nextRecord();
-            for (int j = 0; j < aobj.length; j++) {
-                if(aobj[j]==null)
-                    aobj[j] = "";
-                //System.out.println("TESTE DO OBJECT na linha: " + i + " com valor: " + aobj[j]);
-                teste[i][j] = aobj[j].toString();
-            }
-        }
-        return teste;
     }
 }
