@@ -1,0 +1,36 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Petróleo e Gás
+
+* Título: Sétima rodada da ANP
+
+* Descrição: Mapa dos blocos exploração oferecidos na Sétima Rodada de Licitações da
+	     ANP - Agência Nacional de Petróleo; nome do bloco, nome da bacia 
+	     sedimentar, setores e área.
+
+* Ano/Revisão: 2005.1
+
+* Data de revisão: 26/07/2005
+
+* Fonte: ANP - Agência Nacional  de Petróleo
+
+* Conteúdo:
+
+******* blocos_r7.dbf	******* 
+NOME_BACIA	-nome da bacia sedimentar
+NOMENCLATU	-nome do bloco
+NOME_SETOR	-nome do setor
+INDICE_BLO	-índice do bloco
+AREA_BLOCO	-área do bloco (km2)
+
+******* Setores_round7.dbf ******* 
+BACIA		-nome da bacia sedimentar
+NOME_SETOR	-nome do setor
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------

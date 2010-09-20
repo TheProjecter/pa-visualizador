@@ -1,0 +1,30 @@
+===================================
+GISMAPS - www.gismaps.com.br
+===================================
+Mapas Temáticos - Geoprocessamento
+===================================
+
+* Grupo: Divisão Política
+
+* Título: Meso-regiões do Brasil
+
+* Descrição: Mapa das meso-regiões do Brasil; código, nome, área, perímetro, UF
+
+* Ano/Revisão: 2003.2
+
+* Data de atualização: 21/06/2005
+
+* Fonte: IBGE - Malha Municipal Digital do Brasil - 1997
+
+* Conteúdo:
+
+**************** BR_Meso.dbf ****************
+AREA 		- área
+CODUF 		- código da UF
+CODUFMESO 	- código da UF mais meso-região
+NOMEMESO 	- nome da meso-região
+PERIMETER 	- perímetro
+
+===================================
+GISMAPS - www.gismaps.com.br
+===================================

@@ -1,0 +1,30 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Transporte
+
+* Título: Aeroportos Internacionais
+
+* Descrição: Mapas temáticos apresentando os aeroportos internacionais do Brasil.
+
+* Ano/Revisão: 2005.1
+
+* Data de atualização: 02/08/2005
+
+* Fonte: Base Cartográfica Integrada Digital do Brasil ao Milionésimo - IBGE/DGC/DECAR
+
+*Conteúdo:
+
+************* AEROPORTO_INTERNACIONAL.dbf  *************
+MD_LONGITU 	- longitude
+MD_LATITUD 	- latitude
+CD_UF 		- sigla do estado em que o aeroporto etá localizado
+CD_UTIL_AE 	- código de tipo de utilização
+NM_NOME 	- nome
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------

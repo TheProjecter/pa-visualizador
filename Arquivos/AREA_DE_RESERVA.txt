@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Meio-Ambiente
+
+* Título: Áreas de Reserva
+
+* Descrição: Áreas de reserva biológica, ecológica, ambiental, florestal, extrativista ou 
+	     estação ecológica
+
+* Ano/Revisão: 2005.1
+
+* Data de atualização: 03/08/2005
+
+* Fonte: Base Cartográfica Integrada Digital do Brasil ao Milionésimo - IBGE/DGC/DECAR
+
+* Conteúdo: 
+
+NM_NOME 	- nome da reserva
+MD_AR_POLI 	- área da reserva em quilômetros quadrados
+CD_TIPO_LI 	- tipo de responsável pela reserva
+CD_TIPO 	- tipo de reserva
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
