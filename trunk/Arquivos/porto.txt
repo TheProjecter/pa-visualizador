@@ -1,0 +1,30 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Transporte
+
+* Título: Portos do Brasil
+
+* Descrição: Mapa temático apresentando os portos marítimos e fluviais do Brasil.
+
+* Ano/Revisão: 2005.1
+
+* Data de atualização: 02/08/2005
+
+* Fonte: Base Cartográfica Integrada Digital do Brasil ao Milionésimo - IBGE/DGC/DECAR
+
+* Conteúdo:
+
+************* PORTO.dbf **********
+MD_LONGITU	-Latitude de localização
+MD_LATITUD	-Longitude de localização
+CD_UF		-Sigla Unidade da Federação
+CD_LOCALIZ	-Localização do porto
+NM_NOME	-Nome do porto
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------

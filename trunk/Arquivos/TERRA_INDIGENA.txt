@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Meio-Ambiente
+
+* Título: Terras Indígenas
+
+* Descrição: Áreas consideradas terras índigenas podendo ser reserva, parque ou 
+	     simplesmente terra indígena
+
+* Ano/Revisão: 2005.1
+
+* Data de atualização: 03/08/2005
+
+* Fonte: Base Cartográfica Integrada Digital do Brasil ao Milionésimo - IBGE/DGC/DECAR
+
+* Conteúdo: 
+
+NM_NOME 	- nome da terra
+MD_AR_POLI 	- extensão da terra em kilômetros quadrados
+CD_TIPO_LI 	- tipo de responsabilidade
+CD_TIPO 	- tipo da terra
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------

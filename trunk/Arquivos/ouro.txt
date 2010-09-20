@@ -1,0 +1,35 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Recursos Naturais
+
+* Título: Ouro no Brasil
+
+* Descrição: Mapa temático apresentando os garinpos, depósitos, minas e reservas de 
+	    ouro no Brasil; produção e empresa mineradora.
+
+* Ano/Revisão: 2001.2
+
+* Data de atualização: 29/07/2005
+
+* Fonte: CPRM
+
+* Conteúdo:
+
+************* ouro.dbf *************
+MINA_JAZID	-Nome da mina/jazida
+UF		-Unidade da Federação
+RESERVA_KG	-Reserva em quilos
+PRODU_O_A	-Produção em quilos
+PRODU_O_1	-Produção em quilos
+OBSERVA_E	-Observação
+EMPRESA_MI	-Nome da empresa mineradora
+TIPO_GITOL	-Tipo
+TIPOS_GITO	-Tipo
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------

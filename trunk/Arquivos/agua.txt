@@ -1,0 +1,57 @@
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
+                                              Mapas Temáticos - Geoprocessamento
+------------------------------------------------------------------------------------------------------------------------------
+
+* Grupo: Recursos Naturais
+
+* Título: Poços de Água Subterrânea
+
+* Descrição: Mapa temático apresentando o cadastro de poços de água subterrânea; 
+	    proprietários, bacia e sub-bacia hidrográfica e profundidade.
+
+* Ano/Revisão: 2001.3
+
+* Data de atualização: 01/08/2005
+
+* Fonte: CPRM
+
+* Conteúdo:
+
+****************** agua.dbf ******************
+C_D		-
+SUREG_UF_P	-Unidade da Federação da superintendência regional
+UF_POCO	-Unidade da Federação do poço
+MUNICIPIO	-município de localização do poço
+LOCALIDADE	-localidade do poço
+HEMISFERIO	-hemisfério de localização do poço
+FONTE_INF	-fonte das informações
+PROPRIETAR	-nome do proprietário
+TIPO_POCO	-tipo de poço
+CAPTACAO	-tipo de captação
+PENETRACAO	-tipo de penetração
+ALTITUDE	-altitude do poço
+BACIA_HID	-bacia hidrográfica
+SUB_BACIA	-sub-bacia hidrográfica
+BASE_CART	-base cartográfica
+DATA_PERF	-data da perfuração
+PROFUND	-profundidade
+PROJETADO	-projeto executado por
+PERFURADOR	-perfuração executada por
+SITUACAO	-situação do poço
+PRODUCAO	-produção do poço
+USO_AGUA	-finalidade do uso da água
+TIPO_AQUIF	-tipo de aquífero
+NOME_AQUIF	-nome do aquífero
+VAZAO		-vazão
+NIVEST		-
+NIVDIN		-
+DATA_QUIMI	-data exame químico
+UNID_OPE	-Unidade operacional
+SUREG_NUM	-
+CODIGO_POC	-código do poço
+
+------------------------------------------------------------------------------------------------------------------------------
+                  GISMAPS                                                                                   www.gismaps.com.br
+------------------------------------------------------------------------------------------------------------------------------
