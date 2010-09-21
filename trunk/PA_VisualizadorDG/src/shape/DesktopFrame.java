@@ -165,6 +165,7 @@ public class DesktopFrame extends shape.JMapFrame {
                     viewer.activate();
                     
                     frame.setSize(400, 500);
+                    frame.setLocationRelativeTo(null);
                     //frame.pack();
                     frame.show(true);
 
