@@ -4,10 +4,8 @@
  */
 package shape;
 
-import com.birosoft.liquid.LiquidLookAndFeel;
 import com.svcon.jdbf.DBFReader;
 import com.svcon.jdbf.JDBFException;
-import com.vividsolutions.jts.geom.Dimension;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.MultiPolygon;
@@ -15,49 +13,21 @@ import com.vividsolutions.jts.geom.Polygon;
 import dbf.DBFdata;
 import dbf.ModeloTabela;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import javax.swing.UIManager;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.geotools.data.FeatureSource;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
-import org.geotools.data.shapefile.ShapefileDataStore;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
@@ -75,8 +45,6 @@ import org.geotools.styling.Stroke;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyleFactory;
 import org.geotools.styling.Symbolizer;
-import org.geotools.swing.JMapFrame;
-import org.geotools.swing.JMapPane;
 import org.geotools.swing.data.JFileDataStoreChooser;
 import org.geotools.swing.event.MapMouseEvent;
 import org.geotools.swing.tool.CursorTool;
@@ -88,15 +56,11 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.identity.FeatureId;
 
-import javax.swing.UnsupportedLookAndFeelException;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import javax.swing.*;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
+import com.adobe.acrobat.*;
+import java.awt.*;
+import java.io.*;
 
 public class DesktopFrame extends shape.JMapFrame {
 
@@ -119,6 +83,7 @@ public class DesktopFrame extends shape.JMapFrame {
     static File file;
     PrintUtilities print;
     static private String URLDBF;
+    JTable tabelaDBF;
 
     public DesktopFrame(){
 
@@ -168,6 +133,48 @@ public class DesktopFrame extends shape.JMapFrame {
         toolBar.addSeparator();
         toolBar.add(btn_imprimir);
 
+        JButton btn_ahuda = new JButton("");
+        btn_ahuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/ajuda.png")));
+        btn_ahuda.setToolTipText("Click this button to open help.");
+
+        toolBar.addSeparator();
+        toolBar.add(btn_ahuda);
+
+        btn_ahuda.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent a)  {
+                try {
+
+                    System.out.println("entrou aqui");
+                    JFrame frame = new JFrame("Help");
+                    
+                    frame.setLayout(new BorderLayout());
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    Viewer viewer = new Viewer();
+                    frame.add(viewer, BorderLayout.CENTER);
+                    InputStream input = new FileInputStream(new File("C:\\trunk\\PA_VisualizadorDG\\src\\help\\help.pdf"));
+                    viewer.setDocumentInputStream(input);
+                    viewer.setProperty("Default_Page_Layout","SinglePage");
+                    viewer.setProperty("Default_Zoom_Type","FitPage");
+                    viewer.setProperty("Default_Magnification","100");
+                    
+                    System.out.println("Num paginas: "+viewer.getPageCount());
+                    System.out.println("Pagina atual: "+viewer.getCurrentPage());
+
+                    viewer.zoomTo(1.0);
+                    viewer.activate();
+                    
+                    frame.setSize(400, 500);
+                    //frame.pack();
+                    frame.show(true);
+
+                } catch (Exception ex) {
+                    System.out.println("deu erro aqui");
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
         btn_imprimir.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent a) {
@@ -202,7 +209,7 @@ public class DesktopFrame extends shape.JMapFrame {
             public void actionPerformed(ActionEvent a) {
 
                 //aqui a chamada
-                JTable tabelaDBF = new JTable();
+                tabelaDBF = new JTable();
                 try {
                     //enderecoDBF = "C:/Users/André/Desktop/Visualizador/PA_VisualizadorDG/BACIAS~1/agua.dbf";
                     int numeroLinhasDBF = DBFdata.numeroLinhas(DesktopFrame.URLDBF);
@@ -387,13 +394,14 @@ public class DesktopFrame extends shape.JMapFrame {
         
         viewer.setSize(800, 500);
         viewer.setLocationRelativeTo(null);
-        //viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
         viewer.setVisible(true);
 
     }
 
     public void displayShapefile(File file) throws Exception {
 
+        
         System.out.println(file+" ::: imprimindo file");
         //File testeF2 = new File("C:\\SHAPES\\BRASIL\\PORTO.shp");//**********
         //System.out.println(testeF2+" ::: imprimindo file 2");
