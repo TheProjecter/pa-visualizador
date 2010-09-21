@@ -1,0 +1,30 @@
+===================================
+GISMAPS - www.gismaps.com.br
+===================================
+Mapas Temáticos - Geoprocessamento
+===================================
+
+* Grupo: Divisão Política
+
+* Título: Micro-regiões do Brasil
+
+* Descrição: Mapas das micro-regiões do Brasil; código, nome, área, perímetro, UF
+
+* Ano/Revisão: 2003.2
+
+* Data de atualização: 21/06/2005
+
+* Fonte: IBGE - Malha Municipal Digital do Brasil - 1997
+
+* Conteúdo:
+
+************** BR_Micro.dbf  **************
+AREA 		- área
+CODUF 		- código da UF
+CODUFMESOM	- código da UF mais meso-região e micro-região
+NOMEMICRO 	- nome da micro-região
+PERIMETER 	- perímetro
+
+===================================
+GISMAPS - www.gismaps.com.br
+===================================
