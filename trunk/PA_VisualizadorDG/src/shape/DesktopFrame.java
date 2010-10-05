@@ -83,7 +83,7 @@ public class DesktopFrame extends shape.JMapFrame {
     static File file;
     PrintUtilities print;
     static private String URLDBF;
-    JTable tabelaDBF;
+    JTable tabelaDBF = new JTable();
 
     public DesktopFrame(){
 
@@ -210,7 +210,6 @@ public class DesktopFrame extends shape.JMapFrame {
             public void actionPerformed(ActionEvent a) {
 
                 //aqui a chamada
-                tabelaDBF = new JTable();
                 try {
                     //enderecoDBF = "C:/Users/André/Desktop/Visualizador/PA_VisualizadorDG/BACIAS~1/agua.dbf";
                     int numeroLinhasDBF = DBFdata.numeroLinhas(DesktopFrame.URLDBF);
@@ -270,6 +269,13 @@ public class DesktopFrame extends shape.JMapFrame {
 //                                String nameCursor = "Image Cursor";
 //                                Cursor cursor = kit.createCustomCursor(image, point, nameCursor);
                                 selectFeatures(ev);
+
+
+                                /*
+                                 * Aqui vai o event para seleção de região dentro do determinado mapa
+                                 * e devido selecionamento de linha dentro da tabela DBF.
+                                 */
+                                tabelaDBF.setRowSelectionInterval(2, 3);
                             }
                         });
             }
