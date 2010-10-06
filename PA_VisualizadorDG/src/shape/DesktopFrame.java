@@ -275,7 +275,11 @@ public class DesktopFrame extends shape.JMapFrame {
                                  * e devido selecionamento de linha dentro da tabela DBF.
                                  */
                                 tabelaDBF.setRowSelectionInterval(regiaoSelecTabela - 1, regiaoSelecTabela - 1);
-                                tabelaDBF.setRequestFocusEnabled(rootPaneCheckingEnabled);
+                                tabelaDBF.changeSelection(regiaoSelecTabela, 0, false, false);
+                                tabelaDBF.scrollRectToVisible(tabelaDBF.getCellRect(regiaoSelecTabela, 0, true));
+                                /*
+                                 * Fim da seleção de linha da tabela com base na seleção.
+                                 */
                             }
                         });
             }
