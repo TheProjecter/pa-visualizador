@@ -64,9 +64,10 @@ import java.io.*;
 
 public class DesktopFrame extends shape.JMapFrame {
 
-    private  Color LINE_COLOUR = Color.BLACK;
-    private  Color FILL_COLOUR = Color.WHITE;
-    private  Color SELECTED_COLOUR = Color.LIGHT_GRAY;
+    private Color LINE_COLOUR = Color.BLACK;
+    private Color FILL_COLOUR = new Color(160, 255, 255);
+    private Color SELECTEDFILL_COLOUR = Color.YELLOW;
+    private Color SELECTEDLINE_COLOUR = Color.BLACK;
     private static final float OPACITY = 1.0f;
     private static final float LINE_WIDTH = 1.0f;
     private static final float POINT_SIZE = 10.0f;
@@ -81,11 +82,12 @@ public class DesktopFrame extends shape.JMapFrame {
     static Style style;
     static Style style2;
     static File file;
-    PrintUtilities print;
+    private PrintUtilities print;
     static private String URLDBF;
-    JTable tabelaDBF = new JTable();
+    private JTable tabelaDBF = new JTable();
+    private int regiaoSelecTabela;
 
-    public DesktopFrame(){
+    public DesktopFrame() {
 
         //this.enableLayerTable(true);
 
@@ -98,11 +100,11 @@ public class DesktopFrame extends shape.JMapFrame {
             e.printStackTrace();
         }
         enableStatusBar(true);
-        
+
         enableToolBar(true);
         enableInputMethods(true);
         //enableLayerTable(true);
-        
+
         JToolBar toolBar = this.getToolBar();
         JButton btn_selecionar = new JButton("");
         toolBar.setOrientation(JToolBar.VERTICAL);
@@ -142,28 +144,28 @@ public class DesktopFrame extends shape.JMapFrame {
 
         btn_ahuda.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent a)  {
+            public void actionPerformed(ActionEvent a) {
                 try {
 
                     System.out.println("entrou aqui");
                     JFrame frame = new JFrame("Help");
-                    
+
                     frame.setLayout(new BorderLayout());
                     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     Viewer viewer = new Viewer();
                     frame.add(viewer, BorderLayout.CENTER);
                     InputStream input = new FileInputStream(new File("C:\\trunk\\PA_VisualizadorDG\\src\\help\\help.pdf"));
                     viewer.setDocumentInputStream(input);
-                    viewer.setProperty("Default_Page_Layout","SinglePage");
-                    viewer.setProperty("Default_Zoom_Type","FitPage");
-                    viewer.setProperty("Default_Magnification","100");
-                    
-                    System.out.println("Num paginas: "+viewer.getPageCount());
-                    System.out.println("Pagina atual: "+viewer.getCurrentPage());
+                    viewer.setProperty("Default_Page_Layout", "SinglePage");
+                    viewer.setProperty("Default_Zoom_Type", "FitPage");
+                    viewer.setProperty("Default_Magnification", "100");
+
+                    System.out.println("Num paginas: " + viewer.getPageCount());
+                    System.out.println("Pagina atual: " + viewer.getCurrentPage());
 
                     viewer.zoomTo(1.0);
                     viewer.activate();
-                    
+
                     frame.setSize(400, 500);
                     frame.setLocationRelativeTo(null);
                     //frame.pack();
@@ -192,13 +194,9 @@ public class DesktopFrame extends shape.JMapFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(painelDBF);
         painelDBF.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 315, Short.MAX_VALUE)
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 315, Short.MAX_VALUE));
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 96, Short.MAX_VALUE)
-        );
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 96, Short.MAX_VALUE));
 
         /*
          * Action Listener para abrir o arquivo dbf
@@ -210,6 +208,7 @@ public class DesktopFrame extends shape.JMapFrame {
             public void actionPerformed(ActionEvent a) {
 
                 //aqui a chamada
+                painelDBF.removeAll();
                 try {
                     //enderecoDBF = "C:/Users/André/Desktop/Visualizador/PA_VisualizadorDG/BACIAS~1/agua.dbf";
                     int numeroLinhasDBF = DBFdata.numeroLinhas(DesktopFrame.URLDBF);
@@ -217,10 +216,10 @@ public class DesktopFrame extends shape.JMapFrame {
 
                     tabelaDBF.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);// ativa barra de rolagem horizontal
                     tabelaDBF.setModel(new ModeloTabela(DBFdata.cabecalhoTabela(DesktopFrame.URLDBF), numeroLinhasDBF, numeroColunasDBF));
-                    if(numeroColunasDBF < 19) {
+                    if (numeroColunasDBF < 19) {
                         //define o tamanho das colunas em tabelas com numero pequeno de colunas
-                        for(int i=0; i< numeroColunasDBF; i++) {
-                        tabelaDBF.getColumnModel().getColumn(i).setPreferredWidth((painelDBF.getWidth()/numeroColunasDBF)-7);
+                        for (int i = 0; i < numeroColunasDBF; i++) {
+                            tabelaDBF.getColumnModel().getColumn(i).setPreferredWidth((painelDBF.getWidth() / numeroColunasDBF) - 7);
                         }
                     }
 
@@ -233,22 +232,22 @@ public class DesktopFrame extends shape.JMapFrame {
                             if (aobj[j] == null) {
                                 aobj[j] = "";
                             }
-                        //System.out.println("TESTE DO OBJECT na linha: " + i + " com valor: " + aobj[j]);
-                        tabelaDBF.setValueAt(aobj[j].toString(), (i - 1), j);
+                            //System.out.println("TESTE DO OBJECT na linha: " + i + " com valor: " + aobj[j]);
+                            tabelaDBF.setValueAt(aobj[j].toString(), (i - 1), j);
                         }
                     }
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (JDBFException ex) {
-                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    JScrollPane scrollPane = new JScrollPane(tabelaDBF);
-                    scrollPane.setLocation(0, 0);
-                    scrollPane.setSize(painelDBF.getWidth()-2, 97);
-                    //Dimension dimensao = new Dimension(400, 98);       //Usado para definir o tamanho visível (sem uso do scroll) da tabela
-                    //scrollPane.setPreferredSize(dimensao);
-                    painelDBF.add(scrollPane);
-                    painelDBF.setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JDBFException ex) {
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JScrollPane scrollPane = new JScrollPane(tabelaDBF);
+                scrollPane.setLocation(0, 0);
+                scrollPane.setSize(painelDBF.getWidth() - 2, 97);
+                //Dimension dimensao = new Dimension(400, 98);       //Usado para definir o tamanho visível (sem uso do scroll) da tabela
+                //scrollPane.setPreferredSize(dimensao);
+                painelDBF.add(scrollPane);
+                painelDBF.setVisible(true);
 
             }
         });
@@ -275,7 +274,8 @@ public class DesktopFrame extends shape.JMapFrame {
                                  * Aqui vai o event para seleção de região dentro do determinado mapa
                                  * e devido selecionamento de linha dentro da tabela DBF.
                                  */
-                                tabelaDBF.setRowSelectionInterval(2, 3);
+                                tabelaDBF.setRowSelectionInterval(regiaoSelecTabela - 1, regiaoSelecTabela - 1);
+                                tabelaDBF.setRequestFocusEnabled(rootPaneCheckingEnabled);
                             }
                         });
             }
@@ -287,7 +287,7 @@ public class DesktopFrame extends shape.JMapFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setCurrentDirectory(new File("."));
                 fileChooser.setDialogTitle("Salvar como ...");
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg","jpg");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("jpeg", "jpg");
                 fileChooser.setSelectedFile(new File("shape.jpg"));
                 fileChooser.addChoosableFileFilter(filter);
                 fileChooser.setAcceptAllFileFilterUsed(false);
@@ -297,17 +297,17 @@ public class DesktopFrame extends shape.JMapFrame {
 
                     //File diretorio = fileChooser.getCurrentDirectory();//nome da pasta
                     diretorio = fileChooser.getSelectedFile().toString();
-                    if(diretorio.endsWith(".jpg")){
+                    if (diretorio.endsWith(".jpg")) {
 
                         saveImage(map, diretorio);
                         System.out.println(diretorio);
-                    }else{
+                    } else {
 
-                        diretorio = diretorio+".jpg";
-                        saveImage(map, fileChooser.getSelectedFile().toString()+".jpg");
+                        diretorio = diretorio + ".jpg";
+                        saveImage(map, fileChooser.getSelectedFile().toString() + ".jpg");
                         System.out.println(diretorio);
                     }
-                    
+
                 }
             }
         });
@@ -343,16 +343,16 @@ public class DesktopFrame extends shape.JMapFrame {
         item2.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-             
-                    try {
-                        viewer.dispose();
-                    } catch (Throwable ex) {
-                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
+                try {
+                    viewer.dispose();
+                } catch (Throwable ex) {
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         });
-        
+
         menu.add(item);
         menu.add(item2);
         menuBar.add(menu);
@@ -362,29 +362,27 @@ public class DesktopFrame extends shape.JMapFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(painelDBF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(mapPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
-        );
-        
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).
+                addGroup(layout.createSequentialGroup().
+                addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE).
+                addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).
+                addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).
+                addComponent(statusBar, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE).
+                addComponent(painelDBF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).
+                addComponent(mapPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))));
+
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(mapPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                        .addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(painelDBF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).
+                addGroup(layout.createSequentialGroup().
+                addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).
+                addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup().
+                addComponent(mapPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE).
+                addComponent(statusBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE).
+                addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).
+                addComponent(painelDBF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)).
+                addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 //.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                )
-        ));
+                )));
 
     }
 
@@ -397,8 +395,8 @@ public class DesktopFrame extends shape.JMapFrame {
 
 
         //obtendo dimensos da tela
-        
-        
+
+
         viewer.setSize(800, 500);
         viewer.setLocationRelativeTo(null);
         viewer.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -408,15 +406,15 @@ public class DesktopFrame extends shape.JMapFrame {
 
     public void displayShapefile(File file) throws Exception {
 
-        
-        System.out.println(file+" ::: imprimindo file");
+
+        System.out.println(file + " ::: imprimindo file");
         //File testeF2 = new File("C:\\SHAPES\\BRASIL\\PORTO.shp");//**********
         //System.out.println(testeF2+" ::: imprimindo file 2");
 
         FileDataStore store = FileDataStoreFinder.getDataStore(file);
-       // FileDataStore store2 = FileDataStoreFinder.getDataStore(testeF2);
+        // FileDataStore store2 = FileDataStoreFinder.getDataStore(testeF2);
 
-       // featureSource2 = store2.getFeatureSource();
+        // featureSource2 = store2.getFeatureSource();
         //style2 = createDefaultStyle();
         //FileDataStore store2 = FileDataStoreFinder.getDataStore(testeF2);//**********
         featureSource = store.getFeatureSource();
@@ -460,7 +458,26 @@ public class DesktopFrame extends shape.JMapFrame {
                     SimpleFeature feature = iter.next();
                     IDs.add(feature.getIdentifier());
 
-                    System.out.println("   " + feature.getIdentifier());
+                    /*
+                     * Trecho de código responsável pela leitura da região selecionada
+                     * O mesmo captura o numero da regiao selecionada com base no
+                     *      posicionamento do mesmo nas tabelas DBF.
+                     * E logo após o armazena dentro da variável:
+                     *
+                     * regiaoSelecTabela
+                     */
+                    int k, tamanhoVariavel = feature.getIdentifier().toString().length();
+                    for (k = 0; k < tamanhoVariavel; k++) {
+                        if (isNumeric(feature.getIdentifier().toString().charAt(tamanhoVariavel-1))) {
+                            tamanhoVariavel--;
+                        }
+                        else
+                            break;
+                    }
+                    regiaoSelecTabela = Integer.parseInt(feature.getIdentifier().toString().substring(feature.getIdentifier().toString().length() - k, feature.getIdentifier().toString().length()));
+                    /*
+                     * Fim da leitura da região selecionada
+                     */
                 }
 
             } finally {
@@ -506,7 +523,7 @@ public class DesktopFrame extends shape.JMapFrame {
     }
 
     private Style createSelectedStyle(Set<FeatureId> IDs) {
-        Rule selectedRule = createRule(SELECTED_COLOUR, SELECTED_COLOUR);
+        Rule selectedRule = createRule(SELECTEDLINE_COLOUR, SELECTEDFILL_COLOUR);
         selectedRule.setFilter(ff.id(IDs));
 
         Rule otherRule = createRule(LINE_COLOUR, FILL_COLOUR);
@@ -582,7 +599,7 @@ public class DesktopFrame extends shape.JMapFrame {
         file = JFileDataStoreChooser.showOpenFile("shp", null);
 
         setURLDBF(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".dbf");
-        
+
         if (file == null) {
             System.out.println("erro aquui");
             return;
@@ -590,7 +607,7 @@ public class DesktopFrame extends shape.JMapFrame {
         DesktopFrame.viewer.displayShapefile(file);
     }
 
-    public void saveImage(MapContext map, String file) {
+        public void saveImage(MapContext map, String file) {
 
         GTRenderer renderer = new StreamingRenderer();
         renderer.setContext(map);
@@ -599,9 +616,9 @@ public class DesktopFrame extends shape.JMapFrame {
         try {
             ReferencedEnvelope mapBounds = map.getLayerBounds();
             double heightToWidth = mapBounds.getSpan(1) / mapBounds.getSpan(0);
-            int imageWidth = 600;
+            int imageWidth = 1000;
             imageBounds = new Rectangle(
-                    0, 0, imageWidth, (int) Math.round(imageWidth * heightToWidth));
+                    0, 0, imageWidth, (int) Math.round(0.51*imageWidth * heightToWidth));
         } catch (Exception e) {
         }
 
@@ -626,9 +643,18 @@ public class DesktopFrame extends shape.JMapFrame {
         return URLDBF;
     }
 
-
     static public void setURLDBF(String URLDBF) {
 
         DesktopFrame.URLDBF = URLDBF;
+    }
+
+    public boolean isNumeric(char s) {
+        String teste = "" + s;
+        try {
+            Long.parseLong(teste);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }
