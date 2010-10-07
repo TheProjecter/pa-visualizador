@@ -56,6 +56,12 @@ import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 import org.opengis.filter.identity.FeatureId;
 
+
+import javax.swing.*;
+
+import java.awt.Frame;
+import java.awt.event.*;
+import javax.swing.*;
 import javax.swing.*;
 
 import com.adobe.acrobat.*;
@@ -63,6 +69,23 @@ import java.awt.*;
 import java.io.*;
 
 public class DesktopFrame extends shape.JMapFrame {
+
+     private Image azul;
+    private Image verde;
+     private Image preto;
+      private Image cinza;
+       private Image rosa;
+        private Image vermelho_escuro;
+         private Image vermelho_claro;
+          private Image branco;
+           private Image marrom;
+            private Image amarelo;
+             private Image verde_claro;
+              private Image azul_claro;
+               private Image azul_escuro;
+                private Image roxo;
+                private Image laranja;
+               // private Image dourado;
 
     private Color LINE_COLOUR = Color.BLACK;
     private Color FILL_COLOUR = new Color(160, 255, 255);
@@ -86,6 +109,385 @@ public class DesktopFrame extends shape.JMapFrame {
     static private String URLDBF;
     private JTable tabelaDBF = new JTable();
     private int regiaoSelecTabela;
+
+     //private Image ImageIcon(URL resource) {
+       // throw new UnsupportedOperationException("Not yet implemented");
+    //}
+
+
+
+            class Selecao_cor extends JFrame {
+
+        public Selecao_cor(String string) {
+            inteiro=0;
+             setSize(500, 100);
+             setTitle("Seletor de cores");
+                addWindowListener(new WindowAdapter()
+                        {
+                        //public void windowClosing(WindowEvent e)
+                        //{System.exit(0);}
+                });
+                JPanel p = new JPanel();
+                ButtonGroup grupo = new ButtonGroup();
+                linha_mapa = addButton(p, grupo,"Linha do Mapa", false);
+                preenchimento_mapa = addButton(p,grupo,"Preenchimento do mapa", false);
+                preenchimento_selecao = addButton(p,grupo,"Preenchimento da seleção", false);
+
+                Container contentPane = getContentPane();
+                contentPane.add(p, "North");
+               // setVisible(false);
+               //contentPane.add(new ButtonPanel());
+                //getContentPane().add(p,"North");
+               // panel = new ButtonPanel();
+                //getContentPane().add(panel, "South");
+        }
+        public JRadioButton addButton(JPanel buttonPanel, ButtonGroup g,String nome, boolean v)
+                {
+            JRadioButton button = new JRadioButton(nome, v);
+            button.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent e)  {
+                    Object source = e.getSource();
+                    if(source==linha_mapa)
+                    {
+                         add(new ButtonPanel(1));
+                         setVisible(true);
+
+                     }
+                    else if(source==preenchimento_selecao)
+                    {
+                        add(new ButtonPanel(2));
+                         setVisible(true);
+                    }
+                    else if(source==preenchimento_mapa)
+                    {
+                        add(new ButtonPanel(3));
+                         setVisible(true);
+                    }
+                    else{
+                        throw new UnsupportedOperationException("Not supported yet.");}
+                        }
+                    });
+            g.add(button);
+            buttonPanel.add(button);
+            return button;
+        }
+
+
+
+
+        private JRadioButton linha_mapa;
+        private JRadioButton preenchimento_selecao;
+        private JRadioButton preenchimento_mapa;
+        private int inteiro;
+        private ButtonPanel panel;
+
+    }
+   class ButtonPanel extends JPanel implements ActionListener{
+        public ButtonPanel(final int a2)
+        {
+            System.out.println("PDKFJFFJFKJFKFJFK"+" "+a2);
+           // a2=a;
+            ImageIcon cor_azul = new ImageIcon(azul);
+            ImageIcon cor_verde = new ImageIcon(verde);
+            ImageIcon cor_preto = new ImageIcon(preto);
+            ImageIcon cor_cinza = new ImageIcon(cinza);
+            ImageIcon cor_rosa = new ImageIcon(rosa);
+            ImageIcon cor_vermelho_escuro = new ImageIcon(vermelho_escuro);
+            ImageIcon cor_vermelho_claro = new ImageIcon(vermelho_claro);
+            ImageIcon cor_branco = new ImageIcon(branco);
+            ImageIcon cor_marrom = new ImageIcon(marrom);
+            ImageIcon cor_amarelo = new ImageIcon(amarelo);
+            ImageIcon cor_azul_claro = new ImageIcon(azul_claro);
+            ImageIcon cor_azul_escuro = new ImageIcon(azul_escuro);
+            ImageIcon cor_roxo = new ImageIcon(roxo);
+            ImageIcon cor_verde_claro= new ImageIcon(verde_claro);
+            ImageIcon cor_laranja = new ImageIcon(laranja);
+          //  ImageIcon cor_dourado= new ImageIcon(dourado);
+
+            azul_botao = new JButton(cor_azul);
+            verde_botao = new JButton(cor_verde);
+            preto_botao = new JButton(cor_preto);
+            cinza_botao = new JButton(cor_cinza);
+            rosa_botao = new JButton(cor_rosa);
+            vermelho_escuro_botao = new JButton(cor_vermelho_escuro);
+            vermelho_claro_botao = new JButton(cor_vermelho_claro);
+            branco_botao = new JButton(cor_branco);
+            marrom_botao = new JButton(cor_marrom);
+            amarelo_botao = new JButton(cor_amarelo);
+            azul_claro_botao = new JButton(cor_azul_claro);
+            azul_escuro_botao = new JButton(cor_azul_escuro);
+            roxo_botao = new JButton(cor_roxo);
+            verde_claro_botao = new JButton(cor_verde_claro);
+           // dourado_botao = new JButton(cor_dourado);
+            laranja_botao = new JButton(cor_laranja);
+
+            azul_botao.setPreferredSize(new Dimension(30, 30));
+            verde_botao.setPreferredSize(new Dimension(30, 30));
+            preto_botao.setPreferredSize(new Dimension(30, 30));
+            cinza_botao.setPreferredSize(new Dimension(30, 30));
+            rosa_botao.setPreferredSize(new Dimension(30, 30));
+            vermelho_escuro_botao.setPreferredSize(new Dimension(30, 30));
+            vermelho_claro_botao.setPreferredSize(new Dimension(30, 30));
+            branco_botao.setPreferredSize(new Dimension(30, 30));
+            marrom_botao.setPreferredSize(new Dimension(30, 30));
+            amarelo_botao.setPreferredSize(new Dimension(30, 30));
+            azul_claro_botao.setPreferredSize(new Dimension(30, 30));
+            azul_escuro_botao.setPreferredSize(new Dimension(30, 30));
+            roxo_botao.setPreferredSize(new Dimension(30, 30));
+            verde_claro_botao.setPreferredSize(new Dimension(30, 30));
+            laranja_botao.setPreferredSize(new Dimension(30, 30));
+           // dourado_botao.setPreferredSize(new Dimension(30, 30));
+
+          add(azul_botao);
+          add(azul_escuro_botao);
+          add(verde_botao);
+          add(verde_claro_botao);
+          add(preto_botao);
+          add(cinza_botao);
+          add(vermelho_claro_botao);
+          add(azul_claro_botao);
+          add(rosa_botao);
+          add(vermelho_escuro_botao);
+          add(branco_botao);
+          add(amarelo_botao);
+          add(roxo_botao);
+          add(laranja_botao);
+          add(marrom_botao);
+          //add(dourado_botao);
+
+            preto_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.BLACK;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.BLACK;}
+                    else if(a2==3){FILL_COLOUR  = Color.BLACK;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+
+             azul_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.BLUE;System.out.println("linha");}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.BLUE;System.out.println("sele");}
+                    else if(a2==3){FILL_COLOUR  = Color.BLUE;System.out.println("pre");}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+
+            verde_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.GREEN;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.GREEN;}
+                    else if(a2==3){FILL_COLOUR  = Color.GREEN;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            cinza_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.GRAY;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.GRAY;}
+                    else if(a2==3){FILL_COLOUR  = Color.GRAY;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            rosa_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.PINK;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.PINK;}
+                    else if(a2==3){FILL_COLOUR  = Color.PINK;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            vermelho_escuro_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.RED;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.RED;}
+                    else if(a2==3){FILL_COLOUR  = Color.RED;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            vermelho_claro_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.LIGHT_GRAY;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.LIGHT_GRAY;}
+                    else if(a2==3){FILL_COLOUR  = Color.LIGHT_GRAY;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            branco_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.WHITE;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.WHITE;}
+                    else if(a2==3){FILL_COLOUR  = Color.WHITE;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            roxo_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.MAGENTA;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.MAGENTA;}
+                    else if(a2==3){FILL_COLOUR  = Color.MAGENTA;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            amarelo_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.YELLOW;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.YELLOW;}
+                    else if(a2==3){FILL_COLOUR  = Color.YELLOW;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            azul_claro_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.DARK_GRAY;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.DARK_GRAY;}
+                    else if(a2==3){FILL_COLOUR  = Color.DARK_GRAY;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            azul_escuro_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = new Color(0, 128, 128);}
+                    else if(a2==2){SELECTEDFILL_COLOUR =new Color(0, 128, 128);}
+                    else if(a2==3){FILL_COLOUR  = new Color(0, 128, 128);}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            marrom_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = new Color( 120, 255, 30 );}
+                    else if(a2==2){SELECTEDFILL_COLOUR = new Color( 120, 255, 30 );}
+                    else if(a2==3){FILL_COLOUR  = new Color( 120, 255, 30 );}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            verde_claro_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = new Color( 120, 255, 30 );}
+                    else if(a2==2){SELECTEDFILL_COLOUR = new Color( 120, 255, 30 );}
+                    else if(a2==3){FILL_COLOUR  = new Color( 120, 255, 30 );}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            laranja_botao.addActionListener(new ActionListener() {
+
+                public void actionPerformed(ActionEvent a)  {
+                    if(a2==1){LINE_COLOUR = Color.ORANGE;}
+                    else if(a2==2){SELECTEDFILL_COLOUR = Color.ORANGE;}
+                    else if(a2==3){FILL_COLOUR  = Color.ORANGE;}
+                    try {
+                        loadloadShapeFile(1);
+                        mapPane.reset();
+                    } catch (Exception ex) {
+                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     }});
+            //dourado_botao.addActionListener(this);
+            }
+         private JButton azul_botao;
+        private JButton verde_botao;
+        private JButton preto_botao;
+        private JButton cinza_botao;
+        private JButton rosa_botao;
+        private JButton vermelho_escuro_botao;
+        private JButton vermelho_claro_botao;
+        private JButton branco_botao;
+        private JButton marrom_botao;
+        private JButton amarelo_botao;
+        private JButton verde_claro_botao;
+        private JButton azul_claro_botao;
+        private JButton azul_escuro_botao;
+        private JButton roxo_botao;
+        private JButton laranja_botao;
+       // private JButton dourado_botao;
+        private int a2;
+
+        public void actionPerformed(ActionEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
 
     public DesktopFrame() {
 
@@ -141,6 +543,54 @@ public class DesktopFrame extends shape.JMapFrame {
 
         toolBar.addSeparator();
         toolBar.add(btn_ahuda);
+
+        JButton btn_cor = new JButton("");
+        btn_cor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/cor.png")));
+        btn_cor.setToolTipText("Click para a seleção de cor.");
+
+
+        toolBar.addSeparator();
+        toolBar.add(btn_cor);
+
+        //IMAGENS////////////////////////////////////////////////////
+        azul =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/azul.png"));
+        verde =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/verde.png"));
+        preto =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/preto.png"));
+        cinza =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/cinza.png"));
+        rosa =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/rosa.png"));
+        vermelho_escuro =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/vermelho_escuro.png"));
+        vermelho_claro =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/vermelho_claro.png"));
+        branco =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/branco.png"));
+        marrom =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/marrom.png"));
+        amarelo =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/amarelo.png"));
+        verde_claro =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/verde_claro.png"));
+        azul_claro =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/azul_claro.png"));
+        azul_escuro =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/azul_escuro.png"));
+        roxo =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/roxo.png"));
+        laranja =Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/laranja.png"));
+        //dourado=Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagens/dourado.png"));
+         //IMAGENS////////////////////////////////////////////////////
+
+         btn_cor.addActionListener(new ActionListener() {
+
+         public void actionPerformed(ActionEvent a)  {
+                try {
+
+                    //System.out.println("entrou aqui");
+                    JFrame frame2 = new Selecao_cor("");
+                    frame2.setResizable(false);
+                     frame2.setLocationRelativeTo(null);
+                    frame2.show(true);
+
+                } catch (Exception ex) {
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+             }
+
+
+         });
+
+
 
         btn_ahuda.addActionListener(new ActionListener() {
 
@@ -329,7 +779,7 @@ public class DesktopFrame extends shape.JMapFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    loadloadShapeFile();
+                    loadloadShapeFile(0);
 
                     /*
                      * O "mapPane.reset();" abaixo foi adicionado para eliminar a demora na pintura
@@ -598,18 +1048,31 @@ public class DesktopFrame extends shape.JMapFrame {
 
     }
 
-    static public void loadloadShapeFile() throws Exception {
+      static public void loadloadShapeFile(int a) throws Exception {
+        if(a==0){
+                file = JFileDataStoreChooser.showOpenFile("shp", null);
 
-        file = JFileDataStoreChooser.showOpenFile("shp", null);
+                setURLDBF(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".dbf");
 
-        setURLDBF(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".dbf");
-
-        if (file == null) {
-            System.out.println("erro aquui");
-            return;
+                if (file == null) {
+                    System.out.println("erro aquui");
+                    return;
+                }
+                DesktopFrame.viewer.displayShapefile(file);
         }
-        DesktopFrame.viewer.displayShapefile(file);
+
+        else
+        {
+                setURLDBF(file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 4) + ".dbf");
+
+                if (file == null) {
+                    System.out.println("erro aquui");
+                    return;
+                }
+                DesktopFrame.viewer.displayShapefile(file);
+                }
     }
+
 
         public void saveImage(MapContext map, String file) {
 
