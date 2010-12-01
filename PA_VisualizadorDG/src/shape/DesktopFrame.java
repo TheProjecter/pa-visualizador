@@ -86,6 +86,7 @@ public class DesktopFrame extends shape.JMapFrame {
     PrintUtilities print;
     static private String URLDBF;
     JTable tabelaDBF = new JTable();
+    private int regiaoSelecTabela;
 
      public class Selecao_cor extends JFrame implements ActionListener{
      private JButton azul_botao;
@@ -498,6 +499,7 @@ public class DesktopFrame extends shape.JMapFrame {
             public void actionPerformed(ActionEvent a) {
 
                 //aqui a chamada
+                painelDBF.removeAll();
                 try {
                     //enderecoDBF = "C:/Users/André/Desktop/Visualizador/PA_VisualizadorDG/BACIAS~1/agua.dbf";
                     int numeroLinhasDBF = DBFdata.numeroLinhas(DesktopFrame.URLDBF);
@@ -550,14 +552,17 @@ public class DesktopFrame extends shape.JMapFrame {
 
                             @Override
                             public void onMouseClicked(MapMouseEvent ev) {
-
-//                                Toolkit kit = Toolkit.getDefaultToolkit();
-//                                Image image = kit.createImage(getClass().getResource("/imagens/selecionar.png"));
-//                                Point point = new Point(16, 16); // Coordenada do clique em relação à imagem
-//                                String nameCursor = "Image Cursor";
-//                                Cursor cursor = kit.createCustomCursor(image, point, nameCursor);
                                 selectFeatures(ev);
-                                tabelaDBF.setRowSelectionInterval(2, 3);
+                                /*
+                                 * Aqui vai o event para seleção de região dentro do determinado mapa
+                                 * e devido selecionamento de linha dentro da tabela DBF.
+                                 */
+                                tabelaDBF.setRowSelectionInterval(regiaoSelecTabela - 1, regiaoSelecTabela - 1);
+                                tabelaDBF.changeSelection(regiaoSelecTabela - 1, 0, false, false);
+                                tabelaDBF.scrollRectToVisible(tabelaDBF.getCellRect(regiaoSelecTabela, 0, true));
+                                /*
+                                 * Fim da seleção de linha da tabela com base na seleção.
+                                 */
                             }
                         });
             }
@@ -742,7 +747,27 @@ public class DesktopFrame extends shape.JMapFrame {
                     SimpleFeature feature = iter.next();
                     IDs.add(feature.getIdentifier());
 
-                    System.out.println("   " + feature.getIdentifier());
+                    /*
+                     * Trecho de código responsável pela leitura da região selecionada
+                     * O mesmo captura o numero da regiao selecionada com base no
+                     *      posicionamento do mesmo nas tabelas DBF.
+                     * E logo após o armazena dentro da variável:
+                     *
+                     * regiaoSelecTabela
+                     */
+                    int k, tamanhoVariavel = feature.getIdentifier().toString().length();
+                    for (k = 0; k < tamanhoVariavel; k++) {
+                        if (isNumeric(feature.getIdentifier().toString().charAt(tamanhoVariavel-1))) {
+                            tamanhoVariavel--;
+                        }
+                        else
+                            break;
+                    }
+                    regiaoSelecTabela = Integer.parseInt(feature.getIdentifier().toString().substring(feature.getIdentifier().toString().length() - k, feature.getIdentifier().toString().length()));
+                    /*
+                     * Fim da leitura da região selecionada
+                     */
+                    System.out.println("   " + feature.getIdentifier()+ "       "+regiaoSelecTabela);
                 }
 
             } finally {
@@ -870,6 +895,7 @@ public class DesktopFrame extends shape.JMapFrame {
             return;
         }
         DesktopFrame.viewer.displayShapefile(file);
+
     }
 
       static public void loadloadShapeFile2() throws Exception {
@@ -925,5 +951,15 @@ public class DesktopFrame extends shape.JMapFrame {
     static public void setURLDBF(String URLDBF) {
 
         DesktopFrame.URLDBF = URLDBF;
+    }
+
+    public boolean isNumeric(char s) {
+        String teste = "" + s;
+        try {
+            Long.parseLong(teste);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }
