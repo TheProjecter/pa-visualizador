@@ -19,7 +19,12 @@ public class Test {
      * Função Soma
      * TODO: retornar a soma dos dois parâmetros
      */
-    public int soma(parametro1,parametro2){        
+    public int soma(int parametro11, int parametro12){
+        parametro1 = parametro11;
+        parametro2 = parametro12;
+        resultado = parametro1 + parametro2;
+        return resultado;
+
     }
 
     /*
@@ -27,7 +32,18 @@ public class Test {
      * TODO: retornar um número composto pela junção do primeiro parâmetro
      * com o segundo
      */
-    public int (parametro1,parametro2){
+    public int juntar(int parametro11, int parametro12){
+
+        parametro1 = parametro11;
+        parametro2 = parametro12;
+        String valor1 = ""+parametro1;
+        String valor2 = ""+parametro2;
+        String valorR = valor1 + valor2;
+        
+        return Integer.parseInt(valorR);
+
     }
+
+    // Puro mangue!!!
 
 }

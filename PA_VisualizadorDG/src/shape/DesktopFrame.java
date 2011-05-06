@@ -351,7 +351,7 @@ public class DesktopFrame extends shape.JMapFrame {
 
         //this.enableLayerTable(true);
 
-        setTitle("Visualizador de dados geoespaciais");
+        setTitle("VISUALIZADOR DE DADOS GEOESPACIAIS");
 
         try {
             Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("../imagens/logo.png"));
@@ -465,13 +465,32 @@ public class DesktopFrame extends shape.JMapFrame {
             }
         });
 
-        btn_imprimir.addActionListener(new ActionListener() {
+          btn_imprimir.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent a) {
-
-                print.printComponent((Component) map);
+            public void actionPerformed(ActionEvent e) {
+               try { //JMapPane mapPane = getMapPane();
+                if (mapPane != null) {
+                    //AffineTransform tr = mapPane.getScreenToWorldTransform();
+                    AffineTransform screenToWorld = getMapPane().getScreenToWorldTransform();
+                    try {
+                    if (screenToWorld != null) {
+                        System.out.println("x scale: " + screenToWorld.getScaleX());
+                        System.out.println("Y scale: " + screenToWorld.getScaleY());
+                        System.out.println("pane area: "+ mapPane.getVisibleRect());
+                        }
+                     } catch (Exception ex) {System.out.println("oI1");}
+                }
+                } catch (Exception ex) {System.out.println("oI2");}
             }
         });
+
+//        btn_imprimir.addActionListener(new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent a) {
+//
+//                print.printComponent((Component) map);
+//            }
+//        });
 
         /*
          * Criando o JPanel para a alocação da tabela DBF.
