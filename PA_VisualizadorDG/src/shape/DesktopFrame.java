@@ -87,6 +87,7 @@ public class DesktopFrame extends shape.JMapFrame {
     static private String URLDBF;
     JTable tabelaDBF = new JTable();
     private int regiaoSelecTabela;
+    private JTextArea textArea;
 
      public class Selecao_cor extends JFrame implements ActionListener{
      private JButton azul_botao;
@@ -410,6 +411,22 @@ public class DesktopFrame extends shape.JMapFrame {
         toolBar.addSeparator();
         toolBar.add(btn_cor);
 
+        JButton btn_abrir = new JButton("");
+        btn_abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/abrir.png")));
+        btn_abrir.setToolTipText("Click this button to save in jpg.");
+
+        toolBar.addSeparator();
+        toolBar.add(btn_abrir);
+
+        textArea = new JTextArea(4,4);
+        JLabel label = new JLabel("Escala");
+        textArea.setEditable(false);
+       
+        toolBar.addSeparator();
+        toolBar.add(label);
+        toolBar.addSeparator();
+        toolBar.add(textArea);
+        
         btn_cor.addActionListener(new ActionListener() {
 
          public void actionPerformed(ActionEvent a)  {
@@ -465,6 +482,41 @@ public class DesktopFrame extends shape.JMapFrame {
             }
         });
 
+        btn_abrir.addActionListener(new ActionListener(){
+         public void actionPerformed(ActionEvent e) {
+
+                try {
+                    loadloadShapeFile();
+
+                    /*
+                     * O "mapPane.reset();" abaixo foi adicionado para eliminar a demora na pintura
+                     * do shape na tela, que anteriormente a ele estava acontecendo.
+                     */
+                    mapPane.reset();
+                     if (mapPane != null) {
+                    //AffineTransform tr = mapPane.getScreenToWorldTransform();
+                    AffineTransform screenToWorld = getMapPane().getScreenToWorldTransform();
+                    try {
+                        float a=1;
+                    if (screenToWorld != null) {
+                        //textArea.insert("1:"+(int)(100000*(1/screenToWorld.getScaleX())), 19);
+                        textArea.append(" ");
+                         textArea.append("1:"+(int)(100000*(1/screenToWorld.getScaleX())));
+
+
+
+                       // System.out.println("pane area: "+ mapPane.getVisibleRect());
+                        }
+                     } catch (Exception ex) {System.out.println("oI1");}
+                }
+
+                } catch (Exception ex) {
+                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+
           btn_imprimir.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -473,10 +525,15 @@ public class DesktopFrame extends shape.JMapFrame {
                     //AffineTransform tr = mapPane.getScreenToWorldTransform();
                     AffineTransform screenToWorld = getMapPane().getScreenToWorldTransform();
                     try {
+                        float a=1;
                     if (screenToWorld != null) {
-                        System.out.println("x scale: " + screenToWorld.getScaleX());
-                        System.out.println("Y scale: " + screenToWorld.getScaleY());
-                        System.out.println("pane area: "+ mapPane.getVisibleRect());
+                        a=      (float) screenToWorld.getScaleX();
+                       //  System.out.println("x scale: "+ a);
+                         System.out.println("x: "+ screenToWorld.getScaleX());
+                        System.out.println("scale: 1:"+ (int)(100000*(1/screenToWorld.getScaleX())));
+                      
+
+                       // System.out.println("pane area: "+ mapPane.getVisibleRect());
                         }
                      } catch (Exception ex) {System.out.println("oI1");}
                 }
@@ -618,50 +675,50 @@ public class DesktopFrame extends shape.JMapFrame {
             }
         });
 
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(Color.lightGray);
-        this.setJMenuBar(menuBar);
-        JMenu menu = new JMenu("Arquivo");
-        JMenuItem item = new JMenuItem("Abrir");
-        JMenuItem item2 = new JMenuItem("Sair");
-
-
-        item.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                try {
-                    loadloadShapeFile();
-
-                    /*
-                     * O "mapPane.reset();" abaixo foi adicionado para eliminar a demora na pintura
-                     * do shape na tela, que anteriormente a ele estava acontecendo.
-                     */
-                    mapPane.reset();
-
-                } catch (Exception ex) {
-                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-        });
-
-        item2.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                    try {
-                        viewer.dispose();
-                    } catch (Throwable ex) {
-                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-            }
-        });
-
-        menu.add(item);
-        menu.add(item2);
-        menuBar.add(menu);
+//        JMenuBar menuBar = new JMenuBar();
+//        menuBar.setBackground(Color.lightGray);
+//        this.setJMenuBar(menuBar);
+//        JMenu menu = new JMenu("Arquivo");
+//        JMenuItem item = new JMenuItem("Abrir");
+//        JMenuItem item2 = new JMenuItem("Sair");
+//
+//
+//        item.addActionListener(new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent e) {
+//
+//                try {
+//                    loadloadShapeFile();
+//
+//                    /*
+//                     * O "mapPane.reset();" abaixo foi adicionado para eliminar a demora na pintura
+//                     * do shape na tela, que anteriormente a ele estava acontecendo.
+//                     */
+//                    mapPane.reset();
+//
+//                } catch (Exception ex) {
+//                    Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//
+//            }
+//        });
+//
+//        item2.addActionListener(new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent e) {
+//
+//                    try {
+//                        viewer.dispose();
+//                    } catch (Throwable ex) {
+//                        Logger.getLogger(DesktopFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//
+//            }
+//        });
+//
+//        menu.add(item);
+//        menu.add(item2);
+//        menuBar.add(menu);
 
         initComponents();
 
