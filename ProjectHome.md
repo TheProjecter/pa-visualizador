@@ -1,0 +1,2 @@
+A idéia deste projeto é criar uma ferramenta para visualizar informações geoespaciais, com consultas para problemas da área de planejamento urbano e ambiental.
+Esta ferramenta deve buscar o auxílio das bibliotecas cartográficas, como a TERRALIB, desenvolvida pelo INPE e/ou MAP OBJECTS, desenvolvidas pela ESRI. Usar um banco de dados para armazenar as informações a serem manipuladas e um ambiente de uma linguagem de programação para desenvolver a interface gráfica
